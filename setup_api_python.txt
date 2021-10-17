@@ -1,0 +1,43 @@
+SETUP
+
+$ docker run -d --name pontos-turisticos-api -v $(pwd)/backend:/app -p 48002:80 -d python:3.7-slim tail -f /dev/null
+
+$ docker exec -it pontos-turisticos-api bash
+
+$ cd /app
+
+$ python3 -m venv myvenv
+
+$ source env/bin/activate
+
+$ pip install django
+
+$ pip install djangorestframework
+
+$ django-admin startproject api .
+
+$ cd api
+
+$ django-admin startapp core
+
+# settings.py
+...
+INSTALLED_APPS = [
+    ... 
+    'rest_framework'
+]
+...
+
+$ cd ..
+
+$ python manage.py migrate
+
+$ python manage.py createsuperuser --email admin@example.com --username admin (password: 1234)
+
+$ pip install django-cors-headers
+
+$ python manage.py runserver 0.0.0.0:80  // (A API VAI RODAR NA PORTA 80 DO CONTAINER E VAI SER LIDA NA PORTA 8000 DO SISTEMA OPERACIONAL)
+
+$ curl -H 'Accept: application/json; indent=4' -u admin:1234 http://127.0.0.1:80/users/
+
+
