@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import include
+from django.conf.urls.static import static
+from django.conf import settings
 from django.urls import path
 from rest_framework import routers
 from ponto_turistico.api.viewsets import PontoTuristicoViewSet
@@ -25,7 +27,7 @@ from avaliacao.api.viewsets import AvaliacaoViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'pontosturisticos', PontoTuristicoViewSet)
+router.register(r'pontosturisticos', PontoTuristicoViewSet, basename='PontoTuristico')
 router.register(r'atracoes', AtracaoViewSet)
 router.register(r'enderecos', EnderecoViewSet)
 router.register(r'comentarios', ComentarioViewSet)
@@ -34,4 +36,4 @@ router.register(r'avaliacoes', AvaliacaoViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

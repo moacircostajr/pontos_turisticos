@@ -126,6 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = 'imagens'  # ver model PontoTuristico, campo foto
+MEDIA_URL = '/media/'    # pip install Pillow
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
