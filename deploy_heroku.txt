@@ -1,0 +1,106 @@
+# https://github.com/Gpzim98/django-heroku
+
+# 1. criar conta no heroku
+# 2. download do heroku cli
+    $ brew install heroku/brew/heroku # mac
+    $ sudo snap install --classic heroku # ubuntu
+
+$ heroku --version
+$ heroku login # informar email e senha informadas na criação do heroku
+
+# incluir no .gitignore: .vscode, *.sqlite3, nome_do_ambiente_virtual
+
+# 3. com o ambiente virtual ativado, instalar o python-decouple para ler as informações das variáveis de ambiente
+$ pip install python-decouple
+
+# criar um arquivo .env na raiz do projeto
+# pegar os valores de SECRET_KEY e DEBUG de settings.py e colocar no arquivo .env
+
+### .env ###
+SECRET_KEY=django-insecure-hf-d8vri4#tdxq=%01p@v^b64tck*8sx^b2ff%l)91$4&%(tp(
+DEBUG=False
+
+### settings.py ###
+...
+from decouple import config
+...
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=False, cast=bool)
+...
+
+4. configurar banco de dados
+### settings.py ###
+...
+from dj_database_url import parse as db_url # constrói a url do banco de dados conforme o padrão do heroku
+...
+default_dburl = 'sqlite:///db.sqlite3'
+DATABASES={
+    'default': config('DATABASE_URL', default=default_dburl, cast=db_url),
+}
+
+# 5. configurar o serviço de arquivos estáticos
+$ pip install dj-static
+### wsgi.py ###
+...
+from dj_static import Cling
+...
+application = Cling(get_wsgi_application()) # substituir
+...
+
+### settings.py ###
+...
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 6. exportar dependencias do sistema
+$ pip freeze > requirements-dev.txt
+$ touch requirements.txt
+### requirements.txt ###
+-r requirements-dev.txt
+gunicorm # coloca o projeto no ar
+psycopg2 # banco de dados
+
+# 7. criar arquivo Procfile e incluir o código abaixo:
+### Procfile ###
+web: gunicorn pontos_turisticos.wsgi --log-file - # executar o gunicorn a partir do caminho pontos_turisticos/wsgi.py
+
+# 8. criar arquivo runtime.txt contendo a versão do python a ser utilizada na aplicação
+### runtime.txt ###
+python-3.7.12
+
+
+# 9. criar aplicação no heroku
+$ heroku apps:create pontos-turisticos # criar aplicação no heroku com https://pontos-turisticos.herokuapp.com/
+
+# 10. incluir o dominio criado no settings.py -> ALLOWED_HOSTS
+### settings.py ###
+...
+ALLOWED_HOSTS = ['pontos-turisticos.herokuapp.com', 'localhost']
+...
+
+# 11. instalar plugin de push do heroku
+$ heroku plugins:install heroku-config
+
+# 12. enviar variáveis de ambiente (dados do arquivo .env) para o heroku
+$ heroku config push -a OU heroku config push
+
+# 13. verificar variáveis de ambiente no heroku
+$ heroku config
+
+# 14. fazer o push no repositório
+$ git add .
+$ git commit -m "deploy no heroku"
+$ git push heroku master --force
+
+# 15. criar banco de dados no heroku e administrador do sistema
+$ heroku run python3 manage.py migrate
+$ heroku run python3 manage.py createsuperuser
+
+# extra:
+# desabilitar collectstatic
+$ heroku config:set DISABLE_COLLECTSTATIC=1
+# habilitar debug
+$ heroku config:set DEBUG=True
+
