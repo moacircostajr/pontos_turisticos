@@ -136,7 +136,19 @@ MEDIA_ROOT = 'imagens'  # ver model PontoTuristico, campo foto
 MEDIA_URL = '/media/'    # pip install Pillow
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+#REST_FRAMEWORK = {
+#    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#    'PAGE_SIZE': 10
+#}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
