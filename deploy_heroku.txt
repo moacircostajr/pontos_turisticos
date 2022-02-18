@@ -84,7 +84,7 @@ ALLOWED_HOSTS = ['pontos-turisticos.herokuapp.com', 'localhost']
 $ heroku plugins:install heroku-config
 
 # 12. enviar variáveis de ambiente (dados do arquivo .env) para o heroku
-$ heroku config:push -a OU heroku config:push
+$ heroku config:push -a <nome_da_aplicacao_no_heroku>
 
 # 13. verificar variáveis de ambiente no heroku
 $ heroku config
