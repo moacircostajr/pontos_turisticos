@@ -86,8 +86,17 @@ $ heroku plugins:install heroku-config
 # 12. enviar variáveis de ambiente (dados do arquivo .env) para o heroku
 $ heroku config:push -a <nome_da_aplicacao_no_heroku>
 
+####### .env #######
+SECRET_KEY=oozoDue3RaiWwohph9Ieju8Taezabewah9IyShiewah4eekiZ2aePah8AoquAech2aelo
+DEBUG=True
+DISABLE_COLLECTSTATIC=1
+#DATABASE_URL=postgres://postgres:postgres@localhost:5432/sat
+
 # 13. verificar variáveis de ambiente no heroku
 $ heroku config
+
+# 13.1. instalar postgres no servidor e configurar variáveis de ambiente
+$ heroku addons:add heroku-postgresql
 
 # 14. fazer o push no repositório
 $ rm -rf .git
