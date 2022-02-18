@@ -34,7 +34,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 4. configurar banco de dados
 ### settings.py ###
 ...
-from dj_database_url import parse as db_url # constrói a url do banco de dados conforme o padrão do heroku
+from dj_database_url import parse as db_url # constrói a url do banco de dados conforme o padrão do heroku / $ pip install dj-database-url
 ...
 default_dburl = 'sqlite:///db.sqlite3'
 DATABASES={
