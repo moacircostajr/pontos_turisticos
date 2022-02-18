@@ -90,6 +90,9 @@ $ heroku config:push -a <nome_da_aplicacao_no_heroku>
 $ heroku config
 
 # 14. fazer o push no repositório
+$ rm -rf .git
+$ git init
+$ heroku git:remote -a sat-1
 $ git add .
 $ git commit -m "deploy no heroku"
 $ git push heroku master --force
