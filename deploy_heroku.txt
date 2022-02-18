@@ -59,7 +59,7 @@ $ pip freeze > requirements-dev.txt
 $ touch requirements.txt
 ### requirements.txt ###
 -r requirements-dev.txt
-gunicorm # coloca o projeto no ar
+gunicorn # coloca o projeto no ar
 psycopg2 # banco de dados
 
 # 7. criar arquivo Procfile e incluir o código abaixo:
